@@ -32,11 +32,7 @@ def post_edit(request, pk):
 
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-
-            if len(post.text) <= 5:
-                valid = False
-                return render(request, 'blog/post_edit.html', {'form': form, 'valid': valid})
+        if form.is_valid() and len(post.text) > 5:
 
             post = form.save(commit=False)
             post.author = request.user
@@ -45,5 +41,8 @@ def post_edit(request, pk):
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm(instance=post)
+        valid = False
+        return render(request, 'blog/post_edit.html', {'form': form, 'valid': valid})
+        #return render(request, 'blog/post_edit.html', {'form': form, 'valid': valid})
 
     return render(request, 'blog/post_edit.html', {'form': form, 'valid': valid})
