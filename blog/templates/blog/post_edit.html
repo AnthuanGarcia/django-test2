@@ -2,6 +2,11 @@
 
 {% block content %}
     <h2>Nuevo Post</h2>
+
+    {% if not valid %}
+        <h5>Texto minimo de 6 caracteres</h5>
+    {% endif %}
+
     <form method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Save</button>

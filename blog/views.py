@@ -27,11 +27,17 @@ def post_new(request):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 def post_edit(request, pk):
+    valid = True
     post = get_object_or_404(Post, pk=pk)
-    
+
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
+
+            if len(post.text) <= 5:
+                valid = False
+                return render(request, 'blog/post_edit.html', {'form': form, 'valid': valid})
+
             post = form.save(commit=False)
             post.author = request.user
             post.published_date = timezone.now()
@@ -40,4 +46,4 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
 
-    return render(request, 'blog/post_edit.html', {'form': form})
+    return render(request, 'blog/post_edit.html', {'form': form, 'valid': valid})
