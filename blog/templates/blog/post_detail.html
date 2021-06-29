@@ -5,7 +5,10 @@
         {% if user.is_authenticated %}
             <aside class="actions">
                 <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">
-                Editar
+                    Editar
+                </a>
+                <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}">
+                    Eliminar
                 </a>
             </aside>
         {% endif %}
